@@ -34,12 +34,41 @@ public class LuckyNumber {
     public int getLuckyNumber(){
         return luckyNumber;
     }
+    
+    /**
+     * Tests if luckyNumber is even
+     * @return 
+     */
+    public String isEven(){
+        if(luckyNumber % 2 == 0){
+            return "Even";
+        }
+        else{
+            return "Odd";
+        }
+    }
+    /**
+     * Tests if luckyNumber is prime
+     * @return 
+     */
+    public String isPrime(){
+        if(luckyNumber == 0 || luckyNumber == 1){
+            return "Not Prime";
+        }
+        for(int i = 2; i < luckyNumber; i++){
+            if(luckyNumber % i == 0){
+                return "Not Prime";
+            }
+        }
+        return "Prime";
+    }
+    
     /**
      * returns a string containing class name, name, and luckyNumber
      * @return 
      */
     public String toString(){
-        return "Class: Lucky Number, Name: " + name + ", Lucky Number: " + luckyNumber;
+        return name + "\t" + luckyNumber + "\t" + isEven() + "\t" + isPrime();
     }
     /**
      * Tests to see if the object is the same LuckyNumber

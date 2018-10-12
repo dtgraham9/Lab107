@@ -1,33 +1,70 @@
 
 import java.util.NoSuchElementException;
-
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 /**
- *
+ * LuckyNumberList is an extension of the LinkedPositionalList
+ * It adds the ability to iterate over even and prime luckyNumbers
  * @author Thompson
+ * @version
  */
 public class LuckyNumberList {
     
     LinkedPositionalList<LuckyNumber> list;
+    
+    /**
+     * Creates an empty LinkedPositionalList
+     */
     public LuckyNumberList(){
         list = new LinkedPositionalList();
         
     }
-    
+    /**
+     * Adds a LuckyNumber to the LinkedPositionalList
+     * @param lucky 
+     */
     public void addLuckyNumber(LuckyNumber lucky){
         list.addLast(lucky);
     }
     
+    /**
+     * Get the positions from the LinkedPositionalList class
+     * @return 
+     */
+    public Iterable<Position<LuckyNumber>> positions(){
+        return list.positions();
+    }
     
+    /**
+     * Tests if a number is even
+     * @param luckyTest
+     * @return 
+     */
     public boolean isEven(int luckyTest){
         return luckyTest % 2 == 0;
     }
     
+    /**
+     * Tests if a number is prime
+     * @param luckyTest
+     * @return 
+     */
+    public boolean isPrime(int luckyTest){
+        if(luckyTest == 0 || luckyTest == 1){
+            return false;
+        }
+        for(int i = 2; i < luckyTest; i++){
+            if(luckyTest % i == 0){
+                return false;
+            }
+        }
+        return true;
+    }
+    /**
+     * Data Structures & Algorithms 6th Edition Goodrick, Tamassia, Goldwasser
+     * Code Fragements 7.14
+     *
+     * Graham Thompson modified iterators to iterate even lucky numbers and prime
+     * lucky numbers
+     */
     private class EvenPositionIterator implements Iterator<Position<LuckyNumber>>{
         private Position<LuckyNumber> cursor = list.first();   // position of the next element to report
         private Position<LuckyNumber> recent = null;               // position of last reported element
@@ -77,15 +114,7 @@ public class LuckyNumberList {
         return new EvenPositionIterable( );  // create a new instace of the inner class
     }
     
-    public boolean isPrime(int luckyTest){
-        int half = (luckyTest % 2) +1;
-        for(int i = 2; i <= half; i++){
-            if(luckyTest % i == 0){
-                return false;
-            }
-        }
-        return true;
-    }
+    
     
     private class PrimePositionIterator implements Iterator<Position<LuckyNumber>>{
         private Position<LuckyNumber> cursor = list.first();   // position of the next element to report
@@ -127,7 +156,7 @@ public class LuckyNumberList {
     //----- nested PositionIterable class -----
     private class PrimePositionIterable implements Iterable<Position<LuckyNumber>>{
         @Override
-        public Iterator<Position<LuckyNumber>> iterator( ) { return new EvenPositionIterator( ); }        
+        public Iterator<Position<LuckyNumber>> iterator( ) { return new PrimePositionIterator( ); }        
     } //----- end of nested PositionIterable class -----
     
     /** Returns an iterable representation of the list's positions.
